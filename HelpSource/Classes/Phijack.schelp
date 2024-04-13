@@ -1,0 +1,59 @@
+TITLE:: Phijack
+summary:: a value pattern that hijacks the output of another value pattern when a predicate is true
+categories:: Patterns
+related:: Classes/Pattern
+
+DESCRIPTION::
+Phijack replaces the value produced by a pattern stream with a value from another pattern stream in case a predicate is true. The original pattern stream value in that case is replaced (not just postponed), meaning it is lost forever.
+
+
+
+
+INSTANCEMETHODS::
+
+METHOD:: predicate
+	predicate must be a function that accepts 2 arguments: value and idx, and that returns a bool.
+	value is the current value of the normal pattern and idx in the how many'th element of the stream we are examining. The bool return value indicates if the normal pattern output should be replaced with the hijack pattern
+	output.
+	
+
+returns:: this instance of Phijack
+
+METHOD:: pattern
+	pattern is a value pattern that generates values which can be hijacked if the predicate function is true.
+	hijacking means that the value produced by pattern is replaced with a value produced by the hijacker_pattern
+	
+
+returns:: this instance of Phijack
+
+METHOD:: hijacker_pattern
+	a value pattern that generates the values that overwrite those of the normal pattern, in case the predicate function is true
+	
+
+returns:: this instance of Phijack
+
+METHOD:: embedInStream
+	method that translates the pattern into a stream of values
+	
+
+returns:: this instance of Phijack
+
+
+EXAMPLES::
+
+code::
+(
+// replace every third element in a Pseries with 100
+var p = Pseries(1, 20, 20);
+var hijacker = Pseq([100], inf);
+var predicate = {
+ | value, idx |
+ (idx + 1).mod(3) == 0
+};
+var pvalues = p.asStream.all;
+var hvalues = Phijack(predicate, p, hijacker).asStream.all;
+pvalues.debug("normal pattern values");
+hvalues.debug("hijacked pattern values");
+)
+
+::

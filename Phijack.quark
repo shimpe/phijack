@@ -1,0 +1,9 @@
+(
+  name: "Phijack",
+  summary: "A value pattern that hijacks another value pattern output when a predicate is true",
+  version: "0.0.1",
+  schelp: "Phijack.schelp",
+  license: "GPL",
+  dependencies: [],
+  copyright: "Stefaan Himpe, 2024"
+)
